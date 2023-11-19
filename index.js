@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const dotenv = require("dotenv");
 const connectDb = require("./configuration/connectDb.js"); 
-const hostExpressServer = require("./configuration/hostServer.js");
+const hostExpressServer = require("./configuration/hostExpressServer.js");
 dotenv.config();
 
 const launch = async () => {
