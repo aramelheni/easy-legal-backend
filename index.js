@@ -1,14 +1,18 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
 const dotenv = require("dotenv");
-const connectDb = require("./configuration/connectDb.js"); 
+const connectDb = require("./configuration/connectDb.js");
 const hostExpressServer = require("./configuration/hostExpressServer.js");
+const taskRouter = require("./routes/TaskRouter.js");
+const userRouter = require("./routes/UserRouter.js");
+
 dotenv.config();
 
 const launch = async () => {
     try {
         //Connect to database
-        await connectDb();
+        //await connectDb();
         //Host the server locally
         hostExpressServer(app, process.env.PORT);
     } catch (error) {
@@ -18,6 +22,7 @@ const launch = async () => {
 }
 
 launch();
-
-//Use JSON for requests
+app.use(cors());
 app.use(express.json());
+app.use("/api/tasks", taskRouter);
+app.use("/api", userRouter);
