@@ -8,7 +8,7 @@ const {
 } = require("../controllers/TaskController.js");
 
 // Route definitions
-taskRouter.get("/", getTasks);
-taskRouter.post("/addOne", addTask);
+taskRouter.get("/tasks/:from/:to", getTasks);
+taskRouter.post("/tasks/addOne", addTask);
 
 module.exports = taskRouter;

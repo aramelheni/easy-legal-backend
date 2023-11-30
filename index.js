@@ -26,7 +26,7 @@ const launch = async () => {
 launch();
 app.use(cors());
 app.use(express.json());
-app.use("/api/tasks", taskRouter);
+app.use("/api", taskRouter);
 app.use("/api", taskCategoriesRouter);
 app.use("/api", userRouter);
 app.use("/api", chatRouter);
