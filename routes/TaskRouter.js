@@ -9,6 +9,6 @@ const {
 
 // Route definitions
 taskRouter.get("/", getTasks);
-taskRouter.post("/add", addTask);
+taskRouter.post("/addOne", addTask);
 
 module.exports = taskRouter;

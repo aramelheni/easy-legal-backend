@@ -9,7 +9,15 @@ const taskSchema = new Schema(
 	},
 	date: {
 		type: Date,
-		required: true,
+		required: true
+	},
+	description: {
+		type: String,
+		required: true
+	},
+	category:{
+		type: String,
+		required: true
 	}
 });
 

@@ -1,22 +1,19 @@
 const Task = require("../models/Task.js");
 
 async function getTasks(req, res) {
+    console.log("/tasks");
     try {
-        res.status(200).json({
-            msg: "ok"
-        })
-        return;
-        await Task.find({}).then( tasks => {
+        Task.find({}).then(tasks => {
             res.status(200).json({
                 msg: "ok",
                 tasks
             })
-        }).catch (error => {
+        }).catch(error => {
             throw error;
         });
 
     } catch (error) {
-        console.log(error);
+        console.log("Error getting tasks:", error);
         res.status(500).json({
             msg: error
         });
@@ -24,7 +21,7 @@ async function getTasks(req, res) {
 }
 
 async function addTask(req, res) {
-    console.log("HTTP: addTask: ", req.body);
+    console.log("/tasks/addTask: ", req.body);
     try {
         const task = req.body;
         const taskDocument = new Task(task);
@@ -34,7 +31,7 @@ async function addTask(req, res) {
             throw error;
         });
     } catch (error) {
-        res.status(500).json({ msg: "error saving task: " + err });
+        res.status(500).json({ msg: "error saving task: " + error });
     }
 
 }

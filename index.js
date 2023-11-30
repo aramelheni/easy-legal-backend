@@ -6,6 +6,7 @@ const connectDb = require("./configuration/connectDb.js");
 const hostExpressServer = require("./configuration/hostExpressServer.js");
 const taskRouter = require("./routes/TaskRouter.js");
 const userRouter = require("./routes/UserRouter.js");
+const chatRouter = require("./routes/ChatRouter.js");
 
 dotenv.config();
 
@@ -26,3 +27,4 @@ app.use(cors());
 app.use(express.json());
 app.use("/api/tasks", taskRouter);
 app.use("/api", userRouter);
+app.use("/api", chatRouter);

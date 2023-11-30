@@ -23,34 +23,22 @@ async function getChat(request, response) {
             ]
         }, {
             ids:[0, 2],
-
             messages: [
                 
                 {
                     senderId: 2,
-                    content: "ahla ya nahla",
+                    content: "ahla ena mouhib",
                     date: new Date()
                 },
                 {
                     senderId: 0,
-                    content: "chbi el kattouss manbouz",
+                    content: "fibeli",
                     date: new Date()
                 }
             ]
         }, {
             ids:[0, 3],
-
             messages: [
-                {
-                    senderId: 0,
-                    content: "ahla ya nahla",
-                    date: new Date()
-                },
-                {
-                    senderId: 0,
-                    content: "chbi el kattouss manbouz",
-                    date: new Date()
-                },
                 {
                     senderId: 3,
                     content: "Khra nekrah web",
@@ -60,15 +48,19 @@ async function getChat(request, response) {
         }
     ]
 
-    let result = null;
+    let result = undefined;
 
     chats.forEach(chat=>{
-        console.log(id1, id2);
         if(chat.ids[0]===id1 && chat.ids[1]===id2){
             result=chat;
         }
     });
-    response.status(200).json(result)
+
+    if(result != undefined){
+        response.status(200).json({msg: "ok", chat: result})
+    }else{
+        response.status(500).json({msg: "not found"})
+    }
 
     
 }
