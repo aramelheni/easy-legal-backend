@@ -7,13 +7,14 @@ const hostExpressServer = require("./configuration/hostExpressServer.js");
 const taskRouter = require("./routes/TaskRouter.js");
 const userRouter = require("./routes/UserRouter.js");
 const chatRouter = require("./routes/ChatRouter.js");
+const taskCategoriesRouter = require("./routes/TaskCategoryRouter.js");
 
 dotenv.config();
 
 const launch = async () => {
     try {
         //Connect to database
-        //await connectDb();
+        await connectDb();
         //Host the server locally
         hostExpressServer(app, process.env.PORT);
     } catch (error) {
@@ -26,5 +27,6 @@ launch();
 app.use(cors());
 app.use(express.json());
 app.use("/api/tasks", taskRouter);
+app.use("/api", taskCategoriesRouter);
 app.use("/api", userRouter);
 app.use("/api", chatRouter);

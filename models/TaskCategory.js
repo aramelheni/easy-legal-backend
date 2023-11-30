@@ -9,5 +9,5 @@ const taskCategorySchema = new Schema(
 	}
 });
 
-const TaskCategory = mongoose.model("TaskCategorie", taskCategorySchema); 
+const TaskCategory = mongoose.model("Task-Categorie", taskCategorySchema); 
 module.exports = TaskCategory;
