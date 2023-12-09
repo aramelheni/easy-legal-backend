@@ -22,7 +22,7 @@ const userSchema = new Schema(
 		type: String,
 		required: true,
 	},
-    userType: {
+    role: {
 		type: String,
 		enum: ['lawyer', 'client'],
 		default: 'client',

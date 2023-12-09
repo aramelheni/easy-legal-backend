@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
 
 async function postSignup(request, response) {
-    const { email, password, phoneNumber, firstName, lastName, userType } = request.body;
+    const { email, password, phoneNumber, firstName, lastName, role } = request.body;
     console.log(request.body, "is trying to sign up");
 
     let createUser = true;
@@ -21,11 +21,11 @@ async function postSignup(request, response) {
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({
-        email, password: hashedPassword, phoneNumber, firstName, lastName, userType
+        email, password: hashedPassword, phoneNumber, firstName, lastName, role
     });
-    console.log("User doesn't exist");
     await user.save().then(user => {
         response.status(200).json({ msg: "ok" });
+        console.log("A new user has signed up!", user);
     }).catch(error => {
         response.status(500).json({ msg: "Failed to save the new user in the database:" + error });
     });
@@ -33,7 +33,6 @@ async function postSignup(request, response) {
 
 async function postSignin(request, response) {
     const { email, password } = request.body;
-    console.log("email(", email, "), tried to sign in with pwd(", password, ")");
 
     await User.findOne({ email }).then(async user => {
         let succeed = false;
@@ -46,17 +45,24 @@ async function postSignin(request, response) {
         }
 
         if (succeed) {
+            console.log("A user has signed-in:", user);
             const payload = {
-                _id: user._id,
-                userRole: user.userType
+                user
             };
-            const token = jwt.sign(payload  , process.env.JWT_SECRET);
-            response.status(200).json({ msg: "ok", data: user, token, user: payload });
-        } else
+            const token = jwt.sign(payload, process.env.JWT_SECRET);
+            response.status(200).json({ msg: "ok", token, user });
+        } else{
+            console.log("User failed to sign-in:", email, " : ", password);
             response.status(500).json({ msg: "User not found" });
+        }
     }).catch(error => {
         response.status(500).json({ msg: "Could not sign in: " + error });
     });
 }
 
-module.exports = { postSignin, postSignup };
+async function getCurrentUser (request, response){
+    const id = request.header.token.payload._id;
+    console.log(id);
+}
+
+module.exports = { postSignin, postSignup, getCurrentUser };
