@@ -1,5 +1,5 @@
-async function hostExpressServer(app, port){
-    app.listen(port, (error) => {
+async function hostExpressServer(server, port){
+    server.listen(port, (error) => {
         if (error) {
             throw new Error(error);
         }
