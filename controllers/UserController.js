@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const bcrypt = require('bcrypt');
+const jwt = require("jsonwebtoken");
 
 async function postSignup(request, response) {
     const { email, password, phoneNumber, firstName, lastName, userType } = request.body;
@@ -43,8 +44,14 @@ async function postSignin(request, response) {
                 console.log(error);
             });
         }
+
         if (succeed) {
-            response.status(200).json({ msg: "ok", data: user });
+            const payload = {
+                _id: user._id,
+                userRole: user.userType
+            };
+            const token = jwt.sign(payload  , process.env.JWT_SECRET);
+            response.status(200).json({ msg: "ok", data: user, token, user: payload });
         } else
             response.status(500).json({ msg: "User not found" });
     }).catch(error => {
@@ -52,66 +59,4 @@ async function postSignin(request, response) {
     });
 }
 
-async function getChat(request, response) {
-    const id1 = parseInt(request.params.id1)
-    const id2 = parseInt(request.params.id2)
-    const chats = [
-        {
-            ids: [0, 1],
-            messages: [
-                {
-                    senderId: 0,
-                    content: "ahla ya nahla",
-                    date: new Date()
-                },
-                {
-                    senderId: 1,
-                    content: "chbi el kattouss manbouz",
-                    date: new Date()
-                }
-            ]
-        }, {
-            ids: [0, 2],
-            messages: [
-
-                {
-                    senderId: 2,
-                    content: "ahla ena mouhib",
-                    date: new Date()
-                },
-                {
-                    senderId: 0,
-                    content: "fibeli",
-                    date: new Date()
-                }
-            ]
-        }, {
-            ids: [0, 3],
-            messages: [
-                {
-                    senderId: 3,
-                    content: "Khra nekrah web",
-                    date: new Date()
-                }
-            ]
-        }
-    ]
-
-    let result = undefined;
-
-    chats.forEach(chat => {
-        if (chat.ids[0] === id1 && chat.ids[1] === id2) {
-            result = chat;
-        }
-    });
-
-    if (result != undefined) {
-        response.status(200).json({ msg: "ok", chat: result })
-    } else {
-        response.status(500).json({ msg: "not found" })
-    }
-
-
-}
-
-module.exports = { postSignin, postSignup, getChat };
+module.exports = { postSignin, postSignup };
