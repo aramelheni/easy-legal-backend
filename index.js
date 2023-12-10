@@ -28,6 +28,7 @@ const taskCategoriesRouter = require("./routes/TaskCategoryRouter.js");
 const userRouter = require("./routes/UserRouter.js");
 const chatRouter = require("./routes/ChatRouter.js");
 const caseRouter = require("./routes/CaseRouter.js");
+const { configureChat } = require("./configuration/configureChat.js");
 app.use("/api", taskRouter);
 app.use("/api", taskCategoriesRouter);
 app.use("/api", userRouter);
@@ -35,19 +36,7 @@ app.use("/api", chatRouter);
 app.use("/api", caseRouter);
 
 //Setup socket io
-// const io = hostSocketServer(app);
-io.on('connection', socket => {
-    console.log("user connected!");
-
-    socket.on('disconnect', () => {
-        console.log('User disconnected');
-    });
-
-    socket.on('chat message', (message) => {
-        console.log(message);
-        io.emit('chat message', message);
-    });
-})
+configureChat(io);
 
 //Launch Server
 const launch = async () => {
