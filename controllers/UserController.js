@@ -2,6 +2,21 @@ const User = require("../models/User");
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
 
+async function getUsersApproximately(request, response) {
+    const { hint } = request.params;
+    console.log("will lookup hint:", hint);
+    User.find({
+        $or: [
+            { email: hint },
+            { phoneNumber: hint }
+        ]
+    }).then(users => {
+        response.status(200).json({ hint, users })
+    }).catch(error => {
+        response.status(500).json({ msg: error });
+    });
+}
+
 async function postSignup(request, response) {
     const { email, password, phoneNumber, firstName, lastName, role } = request.body;
     console.log(request.body, "is trying to sign up");
@@ -51,7 +66,7 @@ async function postSignin(request, response) {
             };
             const token = jwt.sign(payload, process.env.JWT_SECRET);
             response.status(200).json({ msg: "ok", token, user });
-        } else{
+        } else {
             console.log("User failed to sign-in:", email, " : ", password);
             response.status(500).json({ msg: "User not found" });
         }
@@ -60,9 +75,9 @@ async function postSignin(request, response) {
     });
 }
 
-async function getCurrentUser (request, response){
+async function getCurrentUser(request, response) {
     const id = request.header.token.payload._id;
     console.log(id);
 }
 
-module.exports = { postSignin, postSignup, getCurrentUser };
+module.exports = { postSignin, postSignup, getCurrentUser, getUsersApproximately };

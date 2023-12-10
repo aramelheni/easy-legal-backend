@@ -2,10 +2,10 @@ const express = require('express')
 const chatRouter = express.Router();
 const {
     getChats,
-    getChat
+    getChatMessages
 } = require("../controllers/ChatController.js")
 
-chatRouter.get("/chats", getChats);
-chatRouter.get("/chats/get-chat", getChat);
+chatRouter.get("/chats/:ids", getChats);
+chatRouter.get("/chats/:ids/messages", getChatMessages);
 
 module.exports = chatRouter;
