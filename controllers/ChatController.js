@@ -1,17 +1,18 @@
 const Chat = require("../models/Chat.js")
 
-async function getChatsForUser(request, response) {
-    const userId = request.params._id;
-    console.log("/getChatForUser:", userId);
-    Chat.find({
-        ids: {
-            $elemMatch: { $eq: userId }
-        }
-    }, { messages: 0 }).then(messages => {
-        response.status(200).json({ messages });
-    }).catch(error => {
-        response.status(500).json({ msg: error });
-    })
+async function postNewChat(request, response) {
+    const ids = request.body.ids;
+    const initialMessage = request.body.initialMessage;
+    chat = new Chat({
+        ids,
+        messages: initialMessage ? [initialMessage] : []
+    });
+    console.log("Will create a new chat");
+    chat.save().then(chat=>{
+        response.status(200).json({msg: "ok", _id: chat._id})
+    }).catch(error=>{
+        response.status(500).json({msg: error});
+    });
 }
 
 async function getChats(request, response) {
@@ -48,4 +49,4 @@ async function getChatMessages(request, response) {
 
 }
 
-module.exports = { getChats, getChatMessages }
+module.exports = { getChats, getChatMessages, postNewChat }
