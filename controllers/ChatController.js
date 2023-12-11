@@ -20,7 +20,7 @@ async function getChats(request, response) {
     //.map(id => parseInt(id))
     const ids = request.params.ids?.split(',');
     console.log(ids);
-    return;
+return;
     if (!ids) {
         console.log("Refused to retrieve all the chats.");
         response.status(500).json({ msg: "Specify at least 1 chat member." })
