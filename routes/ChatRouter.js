@@ -6,8 +6,10 @@ const {
     postNewChat
 } = require("../controllers/ChatController.js")
 
-chatRouter.get("/chats/:ids", getChats);
-chatRouter.post("/chats/addNew", postNewChat);
-chatRouter.get("/chats/:ids/messages", getChatMessages);
+chatRouter.get("/chats/for/:participantId", getChats);
+//chatRouter.get("/chats/:ids", getChats);
+chatRouter.post("/chats/add", postNewChat);
+// chatRouter.get("/chats/:ids/messages", getChatMessages);
+chatRouter.get("/chats/:id/messages", getChatMessages);
 
 module.exports = chatRouter;
