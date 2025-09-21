@@ -84,9 +84,10 @@ easy-legal-backend/
    Create a `.env` file in the root directory with the following variables:
 
    ```env
-   MONGODB_URI=your_mongodb_connection_string
+   PORT=6005
+   DB_URL=your_mongodb_connection_string
    JWT_SECRET=your_jwt_secret_key
-   PORT=3000
+   JWT_EXPIRES_IN=90
    ```
 
 4. Start the server:
