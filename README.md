@@ -1,6 +1,6 @@
 # Easy Legal Backend
 
-A robust backend service for the Easy Legal application, built with Node.js, Express, MongoDB, and Socket.IO.
+A robust backend service for the [Easy Legal application](https://github.com/aramelheni/easy-legal), built with Node.js, Express, MongoDB, and Socket.IO.
 
 ## Project Overview
 
